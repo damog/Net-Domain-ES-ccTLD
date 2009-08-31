@@ -7,11 +7,11 @@ our @EXPORT = qw/find_name_by_cctld/;
 
 =head1 NAME
 
-Net::Domain::ES::ccTLD - Lookup for country names given the TLD code (en Español!)
+Net::Domain::ES::ccTLD - Lookup for country names given the TLD code (¡en Español!)
 
 =head1 VERSION
 
-Version 0.01. Se habla Español!
+Version 0.01. ¡Se habla Español!
 
 =cut
 
