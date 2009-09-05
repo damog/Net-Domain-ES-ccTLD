@@ -15,7 +15,7 @@ Version 0.01. ¡Se habla Español!
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 
 =head1 SYNOPSIS
@@ -49,6 +49,7 @@ You've been warned :)
 
 sub find_name_by_cctld {
 	while(<DATA>) {
+    chomp;
 		next unless $_ =~ /^(??{ lc $_[0] });/;
 		return (split ';', $_)[1]
 	}

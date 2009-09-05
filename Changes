@@ -1,5 +1,7 @@
 Revision history for Net-Domain-ES-ccTLD
 
+0.02    chomp on while loop.
+
 0.01    Date/time
         First version, released on an unsuspecting world.
 
