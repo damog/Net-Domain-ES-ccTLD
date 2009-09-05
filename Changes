@@ -1,5 +1,7 @@
 Revision history for Net-Domain-ES-ccTLD
 
+0.03    removing whitespaces on names.
+
 0.02    chomp on while loop.
 
 0.01    Date/time
