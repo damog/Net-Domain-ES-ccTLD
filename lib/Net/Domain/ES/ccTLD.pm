@@ -15,17 +15,18 @@ Version 0.01. ¡Se habla Español!
 
 =cut
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
+
 =head1 SYNOPSIS
 
 Lookup for a country name given the country code (ccTLD)... in Spanish.
 
  use Net::Domain::ES::ccTLD;
 
- my $country = find_name_by_cctld('mx')     # $country is 'México'
-  or die "Couldn't find name.";
+ my $country = find_name_by_cctld('mx')# $country is 'México'
+or die "Couldn't find name.";
 
- my $neighbor = find_name_by_cctld('us);    # $neighbor is 'Estados Unidos'
+ my $neighbor = find_name_by_cctld('us');# $neighbor is 'Estados Unidos'
 
 =head1 EXPORT
 
@@ -46,10 +47,266 @@ You've been warned :)
 =cut
 
 sub find_name_by_cctld {
-	while(<DATA>) {
-    chomp;
-		next unless $_ =~ /^(??{ lc $_[0] });/;
-		return (split ';', $_)[1]
+	my $guess = shift;
+	
+	my %table = (
+		ad => 'Andorra',
+		ae => 'Emiratos Árabes Unidos',
+		af => 'Afganistán',
+		ag => 'Antigua y Barbuda',
+		ai => 'Anguila',
+		al => 'Albania',
+		am => 'Armenia',
+		an => 'Antillas Neerlandesas',
+		ao => 'Angola',
+		aq => 'Antártida',
+		ar => 'Argentina',
+		as => 'Samoa Americana',
+		at => 'Austria',
+		au => 'Australia',
+		aw => 'Aruba',
+		ax => 'Åland',
+		az => 'Azerbaiyán',
+		ba => 'Bosnia-Herzegovina',
+		bb => 'Barbados',
+		bd => 'Bangladesh',
+		be => 'Bélgica',
+		bf => 'Burkina Faso',
+		bg => 'Bulgaria',
+		bh => 'Bahréin',
+		bi => 'Burundi',
+		bj => 'Benín',
+		bm => 'Bermudas',
+		bn => 'Brunei Darussalam',
+		bo => 'Bolivia',
+		br => 'Brasil',
+		bs => 'Bahamas',
+		bt => 'Bután',
+		bu => 'Birmania',
+		bv => 'Isla Bouvet',
+		bw => 'Botsuana',
+		by => 'Bielorrusia',
+		bz => 'Belice',
+		ca => 'Canadá',
+		cc => 'Islas Cocos',
+		cd => 'República Democrática del Congo',
+		cf => 'República Centroafricana',
+		cg => 'República del Congo',
+		ch => 'Suiza',
+		ci => 'Costa de Marfil',
+		ck => 'Islas Cook',
+		cl => 'Chile',
+		cm => 'Camerún',
+		cn => 'República Popular China',
+		co => 'Colombia',
+		cr => 'Costa Rica',
+		cs => 'Serbia y Montenegro',
+		cu => 'Cuba',
+		cv => 'Cabo Verde',
+		cx => 'Isla de Navidad',
+		cy => 'Chipre',
+		cz => 'República Checa',
+		dd => 'República Democrática Alemana',
+		de => 'Alemania',
+		dj => 'Yibuti',
+		dk => 'Dinamarca',
+		dm => 'Dominica',
+		do => 'República Dominicana',
+		dz => 'Argelia',
+		ec => 'Ecuador',
+		ee => 'Estonia',
+		eg => 'Egipto',
+		eh => 'Sáhara Occidental',
+		er => 'Eritrea',
+		es => 'España',
+		et => 'Etiopía',
+		eu => 'Unión Europea',
+		fi => 'Finlandia',
+		fj => 'Fiyi',
+		fk => 'Islas Malvinas',
+		fm => 'Estados Federados de Micronesia',
+		fo => 'Islas Feroe',
+		fr => 'Francia',
+		ga => 'Gabón',
+		gb => 'Reino Unido',
+		gd => 'Granada',
+		ge => 'Georgia',
+		gf => 'Guayana Francesa',
+		gg => 'Guernesey',
+		gh => 'Ghana',
+		gi => 'Gibraltar',
+		gl => 'Groenlandia',
+		gm => 'Gambia',
+		gn => 'Guinea',
+		gp => 'Guadalupe',
+		gq => 'Guinea Ecuatorial',
+		gr => 'Grecia',
+		gs => 'Islas Georgias del Sur y Sandwich del Sur',
+		gt => 'Guatemala',
+		gu => 'Guam',
+		gw => 'Guinea-Bissau',
+		gy => 'Guyana',
+		hk => 'Hong Kong',
+		hm => 'Islas Heard y McDonald',
+		hn => 'Honduras',
+		hr => 'Croacia',
+		ht => 'Haití',
+		hu => 'Hungría',
+		id => 'Indonesia',
+		ie => 'Irlanda',
+		il => 'Israel',
+		im => 'Isla de Man',
+		in => 'India',
+		io => 'Territorio Británico en el Océano Índico',
+		iq => 'Iraq',
+		ir => 'Irán',
+		is => 'Islandia',
+		it => 'Italia',
+		je => 'Isla de Jersey',
+		jm => 'Jamaica',
+		jo => 'Jordania',
+		jp => 'Japón',
+		ke => 'Kenia',
+		kg => 'Kirguistán',
+		kh => 'Camboya',
+		ki => 'Kiribati',
+		km => 'Comoras',
+		kn => 'San Cristóbal y Nieves',
+		kp => 'Corea del Norte',
+		kr => 'Corea del Sur',
+		kw => 'Kuwait',
+		ky => 'Islas Caimán',
+		kz => 'Kazajistán',
+		la => 'Laos',
+		lb => 'Líbano',
+		lc => 'Santa Lucía',
+		li => 'Liechtenstein',
+		lk => 'Sri Lanka',
+		lr => 'Liberia',
+		ls => 'Lesotho',
+		lt => 'Lituania',
+		lu => 'Luxemburgo',
+		lv => 'Letonia',
+		ly => 'Libia',
+		ma => 'Marruecos',
+		mc => 'Mónaco',
+		md => 'Moldavia',
+		me => 'Montenegro',
+		mg => 'Madagascar',
+		mh => 'Islas Marshall',
+		mk => 'República de Macedonia',
+		ml => 'Malí',
+		mm => 'Myanmar',
+		mn => 'Mongolia',
+		mo => 'Macao',
+		mp => 'Islas Marianas del Norte',
+		mq => 'Martinica',
+		mr => 'Mauritania',
+		ms => 'Montserrat',
+		mt => 'Malta',
+		mu => 'Mauricio',
+		mv => 'Maldivas',
+		mw => 'Malawi',
+		mx => 'México',
+		my => 'Malasia',
+		mz => 'Mozambique',
+		na => 'Namibia',
+		nc => 'Nueva Caledonia',
+		ne => 'Níger',
+		nf => 'Isla Norfolk',
+		ng => 'Nigeria',
+		ni => 'Nicaragua',
+		nl => 'Países Bajos',
+		no => 'Noruega',
+		np => 'Nepal',
+		nr => 'Nauru',
+		nu => 'Niue',
+		nz => 'Nueva Zelanda',
+		om => 'Omán',
+		pa => 'Panamá',
+		pe => 'Perú',
+		pf => 'Polinesia Francesa',
+		pg => 'Papúa Nueva Guinea',
+		ph => 'Filipinas',
+		pk => 'Pakistán',
+		pl => 'Polonia',
+		pm => 'San Pedro y Miquelón',
+		pn => 'Islas Pitcairn',
+		pr => 'Puerto Rico',
+		ps => 'Palestina',
+		pt => 'Portugal',
+		pw => 'Palaos',
+		py => 'Paraguay',
+		qa => 'Qatar',
+		re => 'Reunión',
+		ro => 'Rumania',
+		rs => 'Serbia',
+		ru => 'Rusia',
+		rw => 'Ruanda',
+		sa => 'Arabia Saudita',
+		sb => 'Islas Salomón',
+		sc => 'Seychelles',
+		sd => 'Sudán',
+		se => 'Suecia',
+		sg => 'Singapur',
+		sh => 'Santa Helena',
+		si => 'Eslovenia',
+		sj => 'Svalbard y Jan Mayen',
+		sk => 'Eslovaquia',
+		sl => 'Sierra Leona',
+		sm => 'San Marino',
+		sn => 'Senegal',
+		so => 'Somalia',
+		sr => 'Surinam',
+		st => 'Santo Tomé y Príncipe',
+		su => 'Antigua Unión Soviética',
+		sv => 'El Salvador',
+		sy => 'Siria',
+		sz => 'Swazilandia',
+		tc => 'Islas Turcas y Caicos',
+		td => 'Chad',
+		tf => 'Territorios Australes Franceses',
+		tg => 'Togo',
+		th => 'Tailandia',
+		tj => 'Tayikistán',
+		tk => 'Tokelau',
+		tl => 'Timor Oriental',
+		tm => 'Turkmenistán',
+		tn => 'Túnez',
+		to => 'Tonga',
+		tp => 'Timor Oriental',
+		tr => 'Turquía',
+		tt => 'Trinidad y Tobago',
+		tv => 'Tuvalu',
+		tw => 'Taiwán',
+		tz => 'Tanzania',
+		ua => 'Ucrania',
+		ug => 'Uganda',
+		uk => 'Reino Unido',
+		um => 'Islas Ultramarinas de Estados Unidos',
+		us => 'Estados Unidos',
+		uy => 'Uruguay',
+		uz => 'Uzbekistán',
+		va => 'Ciudad del Vaticano',
+		vc => 'San Vicente y las Granadinas',
+		ve => 'Venezuela',
+		vg => 'Islas Vírgenes Británicas',
+		vi => 'Islas Vírgenes de los Estados Unidos',
+		vn => 'Vietnam',
+		vu => 'Vanuatu',
+		wf => 'Wallis y Futuna',
+		ws => 'Samoa',
+		ye => 'Yemen',
+		yt => 'Mayotte',
+		yu => 'Yugoslavia',
+		za => 'Sudáfrica',
+		zm => 'Zambia',
+		zr => 'Zaire',
+		zw => 'Zimbabue',
+	);
+	
+	while(my($k, $v) = each(%table)) {
+		return $v if $k eq lc $guess;
 	}
 	undef;
 }
@@ -61,13 +318,13 @@ David Moreno, C<< <david at axiombox.com> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to C<bug-net-domain-es-cctld at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Net-Domain-ES-ccTLD>.  I will be notified, and then you'll
+the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Net-Domain-ES-ccTLD>.I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
 =head1 SUPPORT
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Net::Domain::ES::ccTLD
+perldoc Net::Domain::ES::ccTLD
 You can also look for information at:
 
 =over 4
@@ -120,259 +377,3 @@ OTHER DEALINGS IN THE SOFTWARE.
 =cut
 
 1; # End of Net::Domain::ES::ccTLD
-
-__DATA__
-ac;Isla Ascensión
-ad;Andorra
-ae;Emiratos Árabes Unidos
-af;Afganistán
-ag;Antigua y Barbuda
-ai;Anguila
-al;Albania
-am;Armenia
-an;Antillas Neerlandesas
-ao;Angola
-aq;Antártida 
-ar;Argentina
-as;Samoa Americana
-at;Austria
-au;Australia
-aw;Aruba
-ax;Åland
-az;Azerbaiyán
-ba;Bosnia-Herzegovina
-bb;Barbados
-bd;Bangladesh
-be;Bélgica
-bf;Burkina Faso
-bg;Bulgaria
-bh;Bahréin
-bi;Burundi
-bj;Benín
-bm;Bermudas
-bn;Brunei Darussalam
-bo;Bolivia
-br;Brasil
-bs;Bahamas
-bt;Bután
-bu;Birmania
-bv;Isla Bouvet
-bw;Botsuana
-by;Bielorrusia
-bz;Belice
-ca;Canadá
-cc;Islas Cocos
-cd;República Democrática del Congo
-cf;República Centroafricana
-cg;República del Congo
-ch;Suiza
-ci;Costa de Marfil
-ck;Islas Cook
-cl;Chile
-cm;Camerún
-cn;República Popular China
-co;Colombia
-cr;Costa Rica
-cs;Serbia y Montenegro
-cu;Cuba
-cv;Cabo Verde
-cx;Isla de Navidad
-cy;Chipre
-cz;República Checa
-dd;República Democrática Alemana
-de;Alemania
-dj;Yibuti
-dk;Dinamarca
-dm;Dominica
-do;República Dominicana
-dz;Argelia
-ec;Ecuador
-ee;Estonia
-eg;Egipto
-eh;Sáhara Occidental 
-er;Eritrea
-es;España
-et;Etiopía
-eu;Unión Europea
-fi;Finlandia
-fj;Fiyi
-fk;Islas Malvinas
-fm;Estados Federados de Micronesia
-fo;Islas Feroe
-fr;Francia
-ga;Gabón
-gb;Reino Unido
-gd;Granada
-ge;Georgia
-gf;Guayana Francesa
-gg;Guernesey
-gh;Ghana
-gi;Gibraltar
-gl;Groenlandia
-gm;Gambia
-gn;Guinea
-gp;Guadalupe
-gq;Guinea Ecuatorial
-gr;Grecia
-gs;Islas Georgias del Sur y Sandwich del Sur
-gt;Guatemala
-gu;Guam
-gw;Guinea-Bissau
-gy;Guyana
-hk;Hong Kong
-hm;Islas Heard y McDonald
-hn;Honduras
-hr;Croacia
-ht;Haití
-hu;Hungría
-id;Indonesia
-ie;Irlanda
-il;Israel
-im;Isla de Man
-in;India
-io;Territorio Británico en el Océano Índico
-iq;Iraq
-ir;Irán
-is;Islandia
-it;Italia
-je;Isla de Jersey
-jm;Jamaica
-jo;Jordania
-jp;Japón
-ke;Kenia
-kg;Kirguistán
-kh;Camboya
-ki;Kiribati
-km;Comoras
-kn;San Cristóbal y Nieves
-kp;Corea del Norte
-kr;Corea del Sur
-kw;Kuwait
-ky;Islas Caimán
-kz;Kazajistán
-la;Laos
-lb;Líbano
-lc;Santa Lucía
-li;Liechtenstein
-lk;Sri Lanka
-lr;Liberia
-ls;Lesotho
-lt;Lituania
-lu;Luxemburgo
-lv;Letonia
-ly;Libia
-ma;Marruecos
-mc;Mónaco
-md;Moldavia
-me;Montenegro
-mg;Madagascar
-mh;Islas Marshall
-mk;República de Macedonia
-ml;Malí
-mm;Myanmar
-mn;Mongolia
-mo;Macao
-mp;Islas Marianas del Norte
-mq;Martinica
-mr;Mauritania
-ms;Montserrat
-mt;Malta
-mu;Mauricio
-mv;Maldivas
-mw;Malawi
-mx;México
-my;Malasia
-mz;Mozambique
-na;Namibia
-nc;Nueva Caledonia
-ne;Níger
-nf;Isla Norfolk
-ng;Nigeria
-ni;Nicaragua
-nl;Países Bajos
-no;Noruega
-np;Nepal
-nr;Nauru
-nu;Niue
-nz;Nueva Zelanda
-om;Omán
-pa;Panamá
-pe;Perú
-pf;Polinesia Francesa
-pg;Papúa Nueva Guinea
-ph;Filipinas
-pk;Pakistán
-pl;Polonia
-pm;San Pedro y Miquelón
-pn;Islas Pitcairn
-pr;Puerto Rico
-ps;Palestina
-pt;Portugal
-pw;Palaos
-py;Paraguay
-qa;Qatar
-re;Reunión
-ro;Rumania
-rs;Serbia
-ru;Rusia
-rw;Ruanda
-sa;Arabia Saudita
-sb;Islas Salomón
-sc;Seychelles
-sd;Sudán
-se;Suecia
-sg;Singapur
-sh;Santa Helena
-si;Eslovenia
-sj;Svalbard y Jan Mayen
-sk;Eslovaquia
-sl;Sierra Leona
-sm;San Marino
-sn;Senegal
-so;Somalia
-sr;Surinam
-st;Santo Tomé y Príncipe
-su;Antigua Unión Soviética
-sv;El Salvador
-sy;Siria
-sz;Swazilandia
-tc;Islas Turcas y Caicos
-td;Chad
-tf;Territorios Australes Franceses
-tg;Togo
-th;Tailandia
-tj;Tayikistán
-tk;Tokelau
-tl;Timor Oriental
-tm;Turkmenistán
-tn;Túnez
-to;Tonga
-tp;Timor Oriental
-tr;Turquía
-tt;Trinidad y Tobago
-tv;Tuvalu
-tw;Taiwán
-tz;Tanzania
-ua;Ucrania
-ug;Uganda
-uk;Reino Unido
-um;Islas Ultramarinas de Estados Unidos
-us;Estados Unidos
-uy;Uruguay
-uz;Uzbekistán
-va;Ciudad del Vaticano
-vc;San Vicente y las Granadinas
-ve;Venezuela
-vg;Islas Vírgenes Británicas
-vi;Islas Vírgenes de los Estados Unidos
-vn;Vietnam
-vu;Vanuatu
-wf;Wallis y Futuna
-ws;Samoa
-ye;Yemen
-yt;Mayotte
-yu;Yugoslavia
-za;Sudáfrica
-zm;Zambia
-zr;Zaire
-zw;Zimbabue
