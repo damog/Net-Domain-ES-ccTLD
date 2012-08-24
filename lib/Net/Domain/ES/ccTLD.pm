@@ -23,12 +23,12 @@ our $VERSION = '0.05';
 
 Lookup for a country name given the country code (ccTLD)... in Spanish.
 
- use Net::Domain::ES::ccTLD;
+  use Net::Domain::ES::ccTLD;
 
- my $country = find_name_by_cctld('mx')# $country is 'México'
-or die "Couldn't find name.";
+  my $country = find_name_by_cctld('mx')        # $country is 'México'
+    or die "Couldn't find name.";
 
- my $neighbor = find_name_by_cctld('us');# $neighbor is 'Estados Unidos'
+  my $neighbor = find_name_by_cctld('us');      # $neighbor is 'Estados Unidos'
 
 =head1 EXPORT
 
@@ -315,13 +315,16 @@ David Moreno, C<< <david at axiombox.com> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to C<bug-net-domain-es-cctld at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Net-Domain-ES-ccTLD>.I will be notified, and then you'll
+the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Net-Domain-ES-ccTLD>. 
+I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
+
 =head1 SUPPORT
 
 You can find documentation for this module with the perldoc command.
 
-perldoc Net::Domain::ES::ccTLD
+  perldoc Net::Domain::ES::ccTLD
+
 You can also look for information at:
 
 =over 4
